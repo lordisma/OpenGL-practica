@@ -65,7 +65,7 @@ protected:
   void paintGL() Q_DECL_OVERRIDE;
   void initializeGL() Q_DECL_OVERRIDE;
   void keyPressEvent(QKeyEvent *Keyevent) Q_DECL_OVERRIDE;
-
+  inline bool isAnima() const {return isAnimated;}
 
 
 private:
@@ -82,6 +82,7 @@ private:
   bool figure[6];//{Q:cilinder,W:cube,E:Vaso,R:Tube,T:Peon,Y:Vaso Inverso}
 
   float pasos;//variable para indicar el paso de giro
+  bool isAnimated;
 
   Tetraedro tetra;
   Cubo cubo;
