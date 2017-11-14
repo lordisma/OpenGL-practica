@@ -12,6 +12,7 @@
 #include <GL/glew.h>
 #include <QOpenGLWidget>
 #include <QKeyEvent>
+#include <QTimer>
 #include <iostream>
 #include "vertex.h"
 #include "objetos.h"
@@ -56,12 +57,15 @@ public:
 
   void load_ply(const string & ply_file);
 
+public slots:
+    void pinta ();
 
 protected:
   void resizeGL(int Width1, int Height1) Q_DECL_OVERRIDE;
   void paintGL() Q_DECL_OVERRIDE;
   void initializeGL() Q_DECL_OVERRIDE;
   void keyPressEvent(QKeyEvent *Keyevent) Q_DECL_OVERRIDE;
+
 
 
 private:
@@ -90,6 +94,7 @@ private:
   Tubo tub;
   Objeto3D ply;
   F_Watt fig;
+  QTimer * timer = new QTimer(this);
 
 };
 

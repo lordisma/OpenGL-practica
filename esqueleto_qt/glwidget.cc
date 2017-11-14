@@ -24,6 +24,8 @@ using namespace _gl_widget_ne;
 
 _gl_widget::_gl_widget(_window *Window1):Window(Window1)
 {
+  if(connect(timer, SIGNAL(timeout()), SLOT(pinta())) ) cout << "\nConnection recibida\n";
+  timer->start(2000);
   setMinimumSize(300, 300);
   setFocusPolicy(Qt::StrongFocus);
 }
@@ -31,7 +33,20 @@ _gl_widget::_gl_widget(_window *Window1):Window(Window1)
 //*************************************************************************
 //
 //*************************************************************************
+void _gl_widget::pinta(){
+    pasos = pasos + 4 * PI * angle / NUM_STEP;
 
+    if(pasos >= NUM_STEP) pasos = pasos - NUM_STEP;
+
+    fig.draw(angle, pasos, mode);
+
+    timer->start(500);
+    update();
+}
+
+//*************************************************************************
+//
+//*************************************************************************
 void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
 {
   switch(Keyevent->key()){
@@ -205,11 +220,7 @@ void _gl_widget::draw_objects()
         if (mode[2]) vasi.draw_fill();
        }
        if(figure[6]){
-        pasos = pasos + 3.5 * PI * angle / NUM_STEP;
-
-        if(pasos >= NUM_STEP) pasos = pasos - NUM_STEP;
-
-        fig.draw(angle, pasos, mode);
+            pinta();
        }
       break;
     default:

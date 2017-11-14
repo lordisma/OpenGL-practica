@@ -71,7 +71,11 @@ _window::_window()
   Abrir->setShortcuts(QKeySequence::Open);
   Abrir->setStatusTip(tr("Open an existing file"));
   connect(Abrir, &QAction::triggered, this, &_window::openfile);
-
+/*
+  QTimer * timer = new QTimer(this);
+  connect(timer, SIGNAL(timeout();), this,  [this] {actualizar();});
+  timer->start(1);
+ */
   // menus
   QMenu *File_menu=menuBar()->addMenu(tr("Options"));
   File_menu->addAction(Abrir);

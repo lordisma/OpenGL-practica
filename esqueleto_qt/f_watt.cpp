@@ -70,7 +70,7 @@ Head::Head(float angle){
 }
 
 void Head::draw(const bool mode []){
-    Brazo der{angle_ini},izq{angle_ini};
+    Brazo der{angle_ini};
     Cilindro cabeza;
 
     glMatrixMode(GL_MODELVIEW);
@@ -87,7 +87,7 @@ void Head::draw(const bool mode []){
     glPushMatrix();
     glTranslatef((std::sin(angle_ini_rad) * (BRAZO_LEN/2) + WID_PLA) - (LEN_PLA/8 * std::cos(angle_ini_rad)),std::cos(angle_ini_rad) * (BRAZO_LEN/2),0);
     glRotatef(180,0,1,0);
-    izq.draw(mode);
+    der.draw(mode);
     glPopMatrix();
 
     //Cabeza
@@ -142,7 +142,7 @@ Middle::Middle(float angle){
 
 void Middle::draw(const bool mode []){
     Cilindro body;
-    Cilindro sug1,sug2;
+    Cilindro sug1;
     Cubo     pipote;
 
     glMatrixMode(GL_MODELVIEW);
@@ -179,10 +179,10 @@ void Middle::draw(const bool mode []){
     glTranslatef(-(std::sin(angle_ini_rad) * BRAZO_LEN/4) - WID_PLA + (std::cos(angle_ini_rad) * LEN_PLA/8),(std::cos(angle_ini_rad) * BRAZO_LEN/4) + WID_PLA/2 , 0);
     glRotatef(angle_ini,0,0,1);
     glScalef(LEN_PLA/4,(BRAZO_LEN/2),LEN_PLA/4);
-    if (mode[1]) sug2.draw_line();
-    if (mode[0]) sug2.draw_points();
-    if (mode[3]) sug2.draw_chess();
-    if (mode[2]) sug2.draw_fill();
+    if (mode[1]) sug1.draw_line();
+    if (mode[0]) sug1.draw_points();
+    if (mode[3]) sug1.draw_chess();
+    if (mode[2]) sug1.draw_fill();
     glPopMatrix();
 
 }
@@ -204,7 +204,7 @@ void F_Watt::draw(float angle, float paso, const bool mode []){
     angle_ini = angle;
     angle_ini_rad = angle_ini * PI/180;
 
-    Cilindro base,columna;
+    Cilindro base;
     Body cuerpo{angle_ini};
 
     glMatrixMode(GL_MODELVIEW);
@@ -221,10 +221,10 @@ void F_Watt::draw(float angle, float paso, const bool mode []){
     glPushMatrix();
     glTranslatef(0, ( (TAMANIO /*+ (std::cos(angle_ini_rad) * (BRAZO_LEN))*/) /2) + 0.2, 0);
     glScalef(LEN_PLA/4,TAMANIO /*+ (std::cos(angle_ini_rad) * (BRAZO_LEN))*/,LEN_PLA/4);
-    if (mode[1]) columna.draw_line();
-    if (mode[0]) columna.draw_points();
-    if (mode[3]) columna.draw_chess();
-    if (mode[2]) columna.draw_fill();
+    if (mode[1]) base.draw_line();
+    if (mode[0]) base.draw_points();
+    if (mode[3]) base.draw_chess();
+    if (mode[2]) base.draw_fill();
     glPopMatrix();
 
     glPushMatrix();

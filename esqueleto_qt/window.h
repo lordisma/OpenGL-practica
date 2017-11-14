@@ -14,6 +14,7 @@
 #include <QStandardPaths>
 #include <QFileDialog>
 #include <QDialog>
+#include <QTimer>
 #include <QHBoxLayout>
 #include <QMessageBox>
 #include <QGuiApplication>
@@ -30,7 +31,6 @@ class _window : public QMainWindow
 public:
     _window();
     void openfile();
-
 private:
   _gl_widget *GL_widget;
 };
