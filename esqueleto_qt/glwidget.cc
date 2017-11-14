@@ -25,14 +25,15 @@ using namespace _gl_widget_ne;
 _gl_widget::_gl_widget(_window *Window1):Window(Window1)
 {
   if(connect(timer, SIGNAL(timeout()), SLOT(pinta())) ) cout << "\nConnection recibida\n";
-  timer->start(2000);
+  timer->start(6000);
   setMinimumSize(300, 300);
   setFocusPolicy(Qt::StrongFocus);
 }
 
 //*************************************************************************
-//
+//Funcion de pintado de la animacion
 //*************************************************************************
+
 void _gl_widget::pinta(){
     pasos = pasos + 4 * PI * angle / NUM_STEP;
 
@@ -40,16 +41,17 @@ void _gl_widget::pinta(){
 
     fig.draw(angle, pasos, mode);
 
-    timer->start(500);
+    timer->start(6000);
     update();
 }
 
 //*************************************************************************
-//
+//Handler de entrada por teclado
 //*************************************************************************
 void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
 {
   switch(Keyevent->key()){
+
   //Aqui tenemos el recolector de eventos
   case Qt::Key_Left:Observer_angle_y-=ANGLE_STEP;break;
   case Qt::Key_Right:Observer_angle_y+=ANGLE_STEP;break;
@@ -59,16 +61,20 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
   case Qt::Key_PageDown:Observer_distance/=1.2;break;
 
 
-
+  // Control funciones basicas
   case Qt::Key_1: Key=1;break;
   case Qt::Key_0: Key=0;break;
   case Qt::Key_5: Key=5;break;
   case Qt::Key_3: Key=3;break;
   case Qt::Key_2: Key=2;break;
+
+  // Control modo de dibujo
   case Qt::Key_L: (mode[1])? mode[1] = false:mode[1] = true;break;
   case Qt::Key_P: (mode[0])? mode[0] = false:mode[0] = true;break;
   case Qt::Key_F: (mode[2])? mode[2] = false:mode[2] = true;    mode[3]=false;  break;
   case Qt::Key_C: (mode[3])? mode[3] = false:mode[3] = true;    mode[2]=false;  break;
+
+  // Objetos por revolucion
   case Qt::Key_Q: (figure[0] && Key == 2)? figure[0]=false:figure[0]=true;break;
   case Qt::Key_W: (figure[1] && Key == 2)? figure[1]=false:figure[1]=true;break;
   case Qt::Key_E: (figure[2] && Key == 2)? figure[2]=false:figure[2]=true;break;
@@ -76,8 +82,8 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
   case Qt::Key_T: (figure[4] && Key == 2)? figure[4]=false:figure[4]=true;break;
   case Qt::Key_Y: (figure[5] && Key == 2)? figure[5]=false:figure[5]=true;break;
 
-
-  case Qt::Key_U: (figure[6] && Key == 2)? figure[6]=false:figure[6]=true;break;
+  // Control de figura animada
+  case Qt::Key_6: Key = 6;break;
 
   case Qt::Key_K: (angle < 84)? angle+=1:angle=84;break;
   case Qt::Key_J: (angle > 20)? angle-=1:angle=20;break;
@@ -188,41 +194,46 @@ void _gl_widget::draw_objects()
         if (mode[0]) cili.draw_points();
         if (mode[3]) cili.draw_chess();
         if (mode[2]) cili.draw_fill();
-       }
+       }else
+
        if(figure[1]){
         if (mode[1]) con.draw_line();
         if (mode[0]) con.draw_points();
         if (mode[3]) con.draw_chess();
         if (mode[2]) con.draw_fill();
-       }
+       }else
+
        if(figure[2]){
         if (mode[1]) vas.draw_line();
         if (mode[0]) vas.draw_points();
         if (mode[3]) vas.draw_chess();
         if (mode[2]) vas.draw_fill();
-       }
+       }else
+
        if(figure[3]){
         if (mode[1]) tub.draw_line();
         if (mode[0]) tub.draw_points();
         if (mode[3]) tub.draw_chess();
         if (mode[2]) tub.draw_fill();
-       }
+       }else
+
        if(figure[4]){
         if (mode[1]) peo.draw_line();
         if (mode[0]) peo.draw_points();
         if (mode[3]) peo.draw_chess();
         if (mode[2]) peo.draw_fill();
-       }
+       }else
+
        if(figure[5]){
         if (mode[1]) vasi.draw_line();
         if (mode[0]) vasi.draw_points();
         if (mode[3]) vasi.draw_chess();
         if (mode[2]) vasi.draw_fill();
        }
-       if(figure[6]){
-            pinta();
-       }
       break;
+    case FIG:
+        pinta();
+        break;
     default:
         break;
     }
@@ -255,7 +266,7 @@ void _gl_widget::resizeGL(int Width1, int Height1)
 
 
 //*************************************************************************
-//
+//Inicializador de la clase
 //*************************************************************************
 
 void _gl_widget::initializeGL()
@@ -302,18 +313,23 @@ void _gl_widget::initializeGL()
   for(int i = 0; i < 7; i++)
       figure[i] = false;
 
-  mode[0] = true; Key = 1; //Empieza un cubo con los puntos
-  figure[6] = true;
+
+  // Para que al iniciar aparezca algo
+  mode[0] = true; Key = 1; figure[3] = true;
 
 
   angle = angleInitial;
+
+  pasos = 0;
 }
 
-    void _gl_widget::load_ply(const string & ply_file){
+/*******************
+ *
+ *
+ *******************/
+void _gl_widget::load_ply(const string & ply_file){
         ply = Objeto3D(ply_file);
 
-    pasos = 0;
-
-    update();
+        update();
 }
 

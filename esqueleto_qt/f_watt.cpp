@@ -2,23 +2,11 @@
 #include <GL/glew.h>
 #include <QOpenGLWidget>
 
-Bola::Bola(){    
-    angle_ini = ANGLE_DEFAULT;
-    angle_ini_rad = angle_ini * PI/180;
-}
-
-Bola::Bola(float angle){
-    angle_ini = angle;
-    angle_ini_rad = angle_ini * PI/180;
-}
+Bola::Bola(){    }
 
 void Bola::draw(const bool mode []){
- Esfera esfera;
-
  glMatrixMode(GL_MODELVIEW);
  glPushMatrix();
- glTranslatef(-(std::sin(angle_ini_rad) * BRAZO_LEN/2),-(std::cos(angle_ini_rad) * BRAZO_LEN/2),0);
- glRotatef(-angle_ini,0,0,1);
 
  if (mode[1]) esfera.draw_line();
  if (mode[0]) esfera.draw_points();
@@ -28,24 +16,12 @@ void Bola::draw(const bool mode []){
  glPopMatrix();
 }
 
-Brazo::Brazo(){
- angle_ini = ANGLE_DEFAULT;
- angle_ini_rad = angle_ini * PI/180;
-}
-
-Brazo::Brazo(float angle){
-    angle_ini = angle;
-    angle_ini_rad = angle_ini * PI/180;
-}
+Brazo::Brazo(){   }
 
 void Brazo::draw(const bool mode []){
-    Tubo brazo;
-    Bola mano{angle_ini};
-
     glMatrixMode(GL_MODELVIEW);
 
     glPushMatrix();
-    glRotatef(-angle_ini,0,0,1);
     glScalef(LEN_PLA/4,BRAZO_LEN,LEN_PLA/4);
     if (mode[1]) brazo.draw_line();
     if (mode[0]) brazo.draw_points();
@@ -55,6 +31,7 @@ void Brazo::draw(const bool mode []){
 
 
     glPushMatrix();
+    glTranslatef(0,-BRAZO_LEN/2,0);
     mano.draw(mode);
     glPopMatrix();
 }
@@ -70,9 +47,6 @@ Head::Head(float angle){
 }
 
 void Head::draw(const bool mode []){
-    Brazo der{angle_ini};
-    Cilindro cabeza;
-
     glMatrixMode(GL_MODELVIEW);
 
     //Brazo derecho
@@ -80,6 +54,7 @@ void Head::draw(const bool mode []){
     glTranslatef(-(std::sin(angle_ini_rad) * (BRAZO_LEN/2)) - WID_PLA + (LEN_PLA/8 * std::cos(angle_ini_rad)) ,
                                                                       std::cos(angle_ini_rad) * (BRAZO_LEN/2) ,
                                                                                                            0 );
+    glRotatef(-angle_ini,0,0,1);
     der.draw(mode);
     glPopMatrix();
 
@@ -87,6 +62,7 @@ void Head::draw(const bool mode []){
     glPushMatrix();
     glTranslatef((std::sin(angle_ini_rad) * (BRAZO_LEN/2) + WID_PLA) - (LEN_PLA/8 * std::cos(angle_ini_rad)),std::cos(angle_ini_rad) * (BRAZO_LEN/2),0);
     glRotatef(180,0,1,0);
+    glRotatef(-angle_ini,0,0,1);
     der.draw(mode);
     glPopMatrix();
 
@@ -106,17 +82,20 @@ void Head::draw(const bool mode []){
 Body::Body(){
     angle_ini = ANGLE_DEFAULT;
     angle_ini_rad = angle_ini * PI/180;
+
+    cabeza = Head{angle_ini};
+    cadera = Middle{angle_ini};
 }
 
 Body::Body(float angle){
     angle_ini = angle;
     angle_ini_rad = angle_ini * PI/180;
+
+    cabeza = Head{angle_ini};
+    cadera = Middle{angle_ini};
 }
 
 void Body::draw(const bool mode []){
-    Head cabeza{angle_ini};
-    Middle cadera{angle_ini};
-
     glMatrixMode(GL_MODELVIEW);
 
     glPushMatrix();
@@ -141,9 +120,6 @@ Middle::Middle(float angle){
 }
 
 void Middle::draw(const bool mode []){
-    Cilindro body;
-    Cilindro sug1;
-    Cubo     pipote;
 
     glMatrixMode(GL_MODELVIEW);
 
@@ -204,8 +180,7 @@ void F_Watt::draw(float angle, float paso, const bool mode []){
     angle_ini = angle;
     angle_ini_rad = angle_ini * PI/180;
 
-    Cilindro base;
-    Body cuerpo{angle_ini};
+    cuerpo= Body{angle_ini};
 
     glMatrixMode(GL_MODELVIEW);
 

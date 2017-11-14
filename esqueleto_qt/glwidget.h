@@ -35,7 +35,7 @@ namespace _gl_widget_ne {
 
   // axis
   const int AXIS_SIZE=5000;
-  const unsigned int CUBO = 1, TETRA = 0, PIRA = 5, PLY = 3, REV = 2;
+  const unsigned int CUBO = 1, TETRA = 0, PIRA = 5, PLY = 3, REV = 2, FIG = 6;
   const float angleInitial = 40;
 }
 
@@ -58,7 +58,7 @@ public:
   void load_ply(const string & ply_file);
 
 public slots:
-    void pinta ();
+  void pinta ();
 
 protected:
   void resizeGL(int Width1, int Height1) Q_DECL_OVERRIDE;
@@ -78,10 +78,10 @@ private:
   float angle;
 
   unsigned int Key;
-  bool mode [4];//{0:point,1:line,2:fill,3:chess,4:mode siguiente}
-  bool figure[7];//{Q:cilinder,W:cube,E:Vaso,R:Tube,T:Peon,Y:Vaso Inverso, K:Bola}
+  bool mode [4];//{0:point,1:line,2:fill,3:chess}
+  bool figure[6];//{Q:cilinder,W:cube,E:Vaso,R:Tube,T:Peon,Y:Vaso Inverso}
 
-  float pasos;
+  float pasos;//variable para indicar el paso de giro
 
   Tetraedro tetra;
   Cubo cubo;

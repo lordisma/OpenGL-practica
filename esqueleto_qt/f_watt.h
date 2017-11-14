@@ -17,21 +17,18 @@ const float END_CI = 360;
 
 class Bola{
 private:
-    float angle_ini;
-    float angle_ini_rad;
+    Esfera esfera;
 public:
     Bola();
-    Bola(float angle);
     void draw(const bool mode []);
 };
 
 class Brazo{
 private:
-    float angle_ini;
-    float angle_ini_rad;
+    Tubo brazo;
+    Bola mano;
 public:
     Brazo();
-    Brazo(float angle);
     void draw(const bool mode []);
 };
 
@@ -39,19 +36,12 @@ class Head{
 private:
     float angle_ini;
     float angle_ini_rad;
+
+    Brazo der;
+    Cilindro cabeza;
 public:
     Head();
     Head(float angle);
-    void draw(const bool mode []);
-};
-
-class Body{
-private:
-    float angle_ini;
-    float angle_ini_rad;
-public:
-    Body();
-    Body(float angle);
     void draw(const bool mode []);
 };
 
@@ -59,9 +49,26 @@ class Middle{
 private:
     float angle_ini;
     float angle_ini_rad;
+
+    Cilindro body;
+    Cilindro sug1;
+    Cubo     pipote;
 public:
     Middle();
     Middle(float angle);
+    void draw(const bool mode []);
+};
+
+class Body{
+private:
+    float angle_ini;
+    float angle_ini_rad;
+
+    Head cabeza;
+    Middle cadera;
+public:
+    Body();
+    Body(float angle);
     void draw(const bool mode []);
 };
 
@@ -70,6 +77,9 @@ class F_Watt
 private:
     float angle_ini;
     float angle_ini_rad;
+
+    Cilindro base;
+    Body cuerpo;
 public:
     F_Watt();
     F_Watt(float angle);
