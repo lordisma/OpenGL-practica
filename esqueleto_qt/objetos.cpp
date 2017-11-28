@@ -123,7 +123,6 @@ void Objeto3D::draw_fill(){
 }
 
 void Objeto3D::draw_chess(){
-    glColor3f(0,1,1);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     glBegin(GL_TRIANGLES);

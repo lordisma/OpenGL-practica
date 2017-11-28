@@ -35,7 +35,7 @@ namespace _gl_widget_ne {
 
   // axis
   const int AXIS_SIZE=5000;
-  const unsigned int CUBO = 1, TETRA = 0, PIRA = 5, PLY = 3, REV = 2, FIG = 6;
+  const unsigned int CUBO = 1, TETRA = 0, PIRA = 5, PLY = 3, REV = 2, FIG = 6, PROF=8;
   const float angleInitial = 40;
 }
 
@@ -59,6 +59,19 @@ public:
 
 public slots:
   void pinta ();
+
+  void CheckFig1();
+  void CheckFig2();
+  void CheckFig3();
+  void CheckFig4();
+  void CheckFig5();
+  void CheckFig6();
+  void CheckFig7();
+  void CheckFig8();
+
+  void CheckModl();
+  void CheckModp();
+  void CheckModc();
 
 protected:
   void resizeGL(int Width1, int Height1) Q_DECL_OVERRIDE;

@@ -27,8 +27,22 @@ class Brazo{
 private:
     Tubo brazo;
     Bola mano;
+    Objeto3D beetho;
 public:
     Brazo();
+    void draw(const bool mode []);
+};
+
+class BrazoDef{
+private:
+    float angle_ini;
+    float angle_ini_rad;
+
+    Brazo brazo;
+    Cilindro sug1;
+public:
+    BrazoDef();
+    BrazoDef(float angle);
     void draw(const bool mode []);
 };
 
@@ -64,8 +78,10 @@ private:
     float angle_ini;
     float angle_ini_rad;
 
-    Head cabeza;
-    Middle cadera;
+    Cilindro cabeza;
+    Cilindro cadera;
+    Cubo     pipote;
+    BrazoDef brazo;
 public:
     Body();
     Body(float angle);

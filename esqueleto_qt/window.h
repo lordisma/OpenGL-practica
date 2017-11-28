@@ -19,6 +19,7 @@
 #include <QMessageBox>
 #include <QGuiApplication>
 #include <iostream>
+#include <QDesktopWidget>
 
 QT_FORWARD_DECLARE_CLASS(QOpenGLWidget)
 

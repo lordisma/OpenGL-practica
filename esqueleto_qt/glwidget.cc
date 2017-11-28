@@ -41,7 +41,6 @@ void _gl_widget::pinta(){
 
     fig.draw(angle, pasos, mode);
 
-    //timer->start(60000);
     update();
 }
 
@@ -67,6 +66,7 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
   case Qt::Key_5: Key=5;break;
   case Qt::Key_3: Key=3;break;
   case Qt::Key_2: Key=2;break;
+  case Qt::Key_8: Key=8;break;//Proff
 
   // Control modo de dibujo
   case Qt::Key_L: (mode[1])? mode[1] = false:mode[1] = true;break;
@@ -85,8 +85,11 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
   // Control de figura animada
   case Qt::Key_6: Key = 6;break;
 
-  case Qt::Key_K: (angle < 84)? angle+=1:angle=84;break;
-  case Qt::Key_J: (angle > 20)? angle-=1:angle=20;break;
+  case Qt::Key_K: (angle < 83)? angle+=1:angle=83;break;
+  //case Qt::Key_J: (angle > 5)? angle-=1:angle=5;break;
+
+  //case Qt::Key_K: angle+=1; break;
+  case Qt::Key_J: angle-=1; break;
 
   case Qt::Key_S:     if(isAnima()){
                         isAnimated = false;
@@ -99,7 +102,6 @@ void _gl_widget::keyPressEvent(QKeyEvent *Keyevent)
 
 
   }
-
   update();//Pinta cuando puedas
 }
 
@@ -242,9 +244,34 @@ void _gl_widget::draw_objects()
       break;
     case FIG:
         pinta();
+        //fig.draw(mode);
         break;
-    default:
+
+    case PROF:
+        glEnable(GL_LIGHTING);
+        glEnable(GL_COLOR_MATERIAL);
+        _vertex4f ambientLight = {1.0f,1.0f,1.0f,1.0f};
+        _vertex4f newpso = {2.0f,2.0f,2.0f,1.0f};
+
+        glShadeModel(GL_SMOOTH);
+        glLightfv(GL_LIGHT0,GL_POSITION,(GLfloat *) &newpso);
+        glLightModelfv(GL_LIGHT_MODEL_AMBIENT,(GLfloat *) &ambientLight);
+        glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+        glBegin(GL_TRIANGLES);
+        glColor3f(1.0,0.0,0.0);
+        glVertex3f(0.0,5.0,0.0);
+
+        glColor3f(0.0,1.0,0.0);
+        glVertex3f(5.0,-2.5,0.0);
+
+        glColor3f(0.0,0.0,1.0);
+        glVertex3f(-5.0,-2.5,0.0);
+        glEnd();
+
         break;
+
     }
 
 }
@@ -319,7 +346,7 @@ void _gl_widget::initializeGL()
   for(int i = 0; i < 4; i++)
       mode[i] = false;
 
-  for(int i = 0; i < 7; i++)
+  for(int i = 0; i < 6; i++)
       figure[i] = false;
 
 
@@ -343,3 +370,98 @@ void _gl_widget::load_ply(const string & ply_file){
         update();
 }
 
+
+void _gl_widget::CheckFig1(){
+    Key = CUBO;
+
+    update();
+}
+
+
+void _gl_widget::CheckFig2(){
+    Key = TETRA;
+
+    update();
+}
+
+
+void _gl_widget::CheckFig3(){
+    Key = FIG;
+
+    update();
+}
+
+
+void _gl_widget::CheckFig4(){
+    Key = REV;
+
+    for(int i = 0; i < 6; i++)
+        figure[i] = false;
+
+    figure[0] = true;
+
+    update();
+}
+
+
+void _gl_widget::CheckFig5(){
+    Key = REV;
+
+    for(int i = 0; i < 6; i++)
+        figure[i] = false;
+
+    figure[3] = true;
+
+    update();
+
+}
+
+
+void _gl_widget::CheckFig6(){
+    Key = REV;
+
+    for(int i = 0; i < 6; i++)
+        figure[i] = false;
+
+    figure[4] = true;
+
+    update();
+}
+
+
+void _gl_widget::CheckFig7(){
+    Key = REV;
+
+    for(int i = 0; i < 6; i++)
+        figure[i] = false;
+
+    figure[1] = true;
+
+    update();
+}
+
+void _gl_widget::CheckFig8(){
+    Key = REV;
+
+    for(int i = 0; i < 6; i++)
+        figure[i] = false;
+
+    figure[2] = true;
+
+    update();
+}
+
+void _gl_widget::CheckModl(){
+   (mode[1])? mode[1] = false:mode[1] = true;
+    update();
+}
+
+void _gl_widget::CheckModp(){
+   (mode[0])? mode[0] = false:mode[0] = true;
+    update();
+}
+
+void _gl_widget::CheckModc(){
+   (mode[3])? mode[3] = false:mode[3] = true;    mode[2]=false;
+    update();
+}

@@ -16,7 +16,9 @@ void Bola::draw(const bool mode []){
  glPopMatrix();
 }
 
-Brazo::Brazo(){   }
+Brazo::Brazo() {
+        beetho = Objeto3D("/home/ismael/Desktop/esqueleto_qt/beethoven.ply");
+}
 
 void Brazo::draw(const bool mode []){
     glMatrixMode(GL_MODELVIEW);
@@ -28,7 +30,17 @@ void Brazo::draw(const bool mode []){
     if (mode[3]) brazo.draw_chess();
     if (mode[2]) brazo.draw_fill();
     glPopMatrix();
-
+/*
+    glPushMatrix();
+    glTranslatef(0,(BRAZO_LEN/2)+RADIO,0);
+    glRotatef(180,0,0,1);
+    glScalef(1/3,1/3,1/3);
+    if (mode[1]) beetho.draw_line();
+    if (mode[0]) beetho.draw_points();
+    if (mode[3]) beetho.draw_chess();
+    if (mode[2]) beetho.draw_fill();
+    glPopMatrix();
+*/
 
     glPushMatrix();
     glTranslatef(0,-BRAZO_LEN/2,0);
@@ -83,29 +95,70 @@ Body::Body(){
     angle_ini = ANGLE_DEFAULT;
     angle_ini_rad = angle_ini * PI/180;
 
-    cabeza = Head{angle_ini};
-    cadera = Middle{angle_ini};
+    brazo = BrazoDef{angle_ini};
 }
 
 Body::Body(float angle){
     angle_ini = angle;
     angle_ini_rad = angle_ini * PI/180;
 
-    cabeza = Head{angle_ini};
-    cadera = Middle{angle_ini};
+    brazo = BrazoDef{angle_ini};
 }
 
 void Body::draw(const bool mode []){
     glMatrixMode(GL_MODELVIEW);
 
     glPushMatrix();
-    glTranslatef(0,WID_PLA/2,0);
-    cabeza.draw(mode);
+    glTranslatef(0, std::cos(angle_ini_rad) * (BRAZO_LEN) + WID_PLA/4  ,0);
+    glScalef(LEN_PLA,WID_PLA,LEN_PLA);
+    if (mode[1]) cabeza.draw_line();
+    if (mode[0]) cabeza.draw_points();
+    if (mode[3]) cabeza.draw_chess();
+    if (mode[2]) cabeza.draw_fill();
     glPopMatrix();
 
     glPushMatrix();
-    cadera.draw(mode);
+    glTranslatef(0,WID_PLA/2,0);
+    glScalef(LEN_PLA,WID_PLA,LEN_PLA);
+    if (mode[1]) cadera.draw_line();
+    if (mode[0]) cadera.draw_points();
+    if (mode[3]) cadera.draw_chess();
+    if (mode[2]) cadera.draw_fill();
     glPopMatrix();
+
+    glPushMatrix();
+    brazo.draw(mode);
+    glPopMatrix();
+
+
+    glPushMatrix();
+    glRotatef(90,0,1,0);
+    brazo.draw(mode);
+    glPopMatrix();
+
+    glPushMatrix();
+    glRotatef(180,0,1,0);
+    brazo.draw(mode);
+    glPopMatrix();
+
+    glPushMatrix();
+    glRotatef(270,0,1,0);
+    brazo.draw(mode);
+    glPopMatrix();
+
+
+    glPushMatrix();
+    glTranslatef(-3*LEN_PLA/8,-(3*BRAZO_LEN/4 - (std::cos(20) * BRAZO_LEN))/2,0);
+    glScalef(LEN_PLA/8,3*BRAZO_LEN/4 - (std::cos(20) * BRAZO_LEN), LEN_PLA/8);
+    if (mode[1]) pipote.drawl();
+    if (mode[0]) pipote.drawp();
+    if (mode[3]) pipote.drawc();
+    if (mode[2]) pipote.draw();
+    glPopMatrix();
+
+   // glPushMatrix();
+   // cadera.draw(mode);
+   // glPopMatrix();
 
 }
 
@@ -209,3 +262,34 @@ void F_Watt::draw(float angle, float paso, const bool mode []){
     glPopMatrix();
 }
 
+BrazoDef::BrazoDef(){
+    angle_ini = ANGLE_DEFAULT;
+    angle_ini_rad = angle_ini * PI/180;
+}
+
+BrazoDef::BrazoDef(float angle){
+    angle_ini = angle;
+    angle_ini_rad = angle_ini * PI/180;
+}
+
+void BrazoDef::draw(const bool mode[]){
+    glMatrixMode(GL_MODELVIEW);
+
+    glPushMatrix();
+    glTranslatef(-(std::sin(angle_ini_rad) * (BRAZO_LEN/2)) - WID_PLA + (LEN_PLA/8 * std::cos(angle_ini_rad)) ,
+                                                           std::cos(angle_ini_rad) * (BRAZO_LEN/2) + WID_PLA/2,
+                                                                                                           0 );
+    glRotatef(-angle_ini,0,0,1);
+    brazo.draw(mode);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-(std::sin(angle_ini_rad) * BRAZO_LEN/4) - WID_PLA + (std::cos(angle_ini_rad) * LEN_PLA/8),(std::cos(angle_ini_rad) * BRAZO_LEN/4) + WID_PLA/2 , 0);
+    glRotatef(angle_ini,0,0,1);
+    glScalef(LEN_PLA/4,(BRAZO_LEN/2),LEN_PLA/4);
+    if (mode[1]) sug1.draw_line();
+    if (mode[0]) sug1.draw_points();
+    if (mode[3]) sug1.draw_chess();
+    if (mode[2]) sug1.draw_fill();
+    glPopMatrix();
+}
